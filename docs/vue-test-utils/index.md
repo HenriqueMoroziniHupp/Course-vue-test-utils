@@ -2,7 +2,7 @@
 
 Seja bem-vindo ao curso de testes unitários no Vue.js
 
-Neste cursos iremos aprender a utilizar o [Vue Test Utils](https://test-utils.vuejs.org/guide/) junto ao [Vistest](https://vitest.dev/).
+Neste cursos iremos aprender a utilizar o [Vue Test Utils](https://test-utils.vuejs.org/guide/) com [Vistest](https://vitest.dev/).
 
 Vamos utilizar o ecossistema Vue mais recente:
 
@@ -27,7 +27,7 @@ Devido a adoção massiva do [Jest](https://jestjs.io/), o Vitest fornece uma AP
 
 ## Próximos passos
 
-O primeiro passo será aprender o **essencial**, que cobrirá os casos mais comuns do dia a dia do desenvolvedor front-end.
-Vamos seguir a metodologia *Test Driven Development (TDD)*, iremos criar os testes da funcionalidade e depois a implementaremos.
+O primeiro passo será aprender o **essencial** de VTU que cobrirá os casos mais comuns do dia a dia do desenvolvedor front-end.
+Vamos seguir a metodologia *Test Driven Development (TDD)*, vamos criar um teste de uma funcionalidade e depois implementar o componente.
 
-Depois de aprender o essencial, iremos mergulhar nos recursos avançado da biblioteca, testar com profundidade os componentes, como slots, transições, vue-router, requisições, Pinia, etc.
+Após aprender o essencial, iremos mergulhar nos recursos avançado da biblioteca, testar com profundidade os componentes, como slots, transições, vue-router, requisições, Pinia, etc.

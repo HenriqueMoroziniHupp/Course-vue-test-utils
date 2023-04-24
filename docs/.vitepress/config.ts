@@ -30,8 +30,8 @@ function sidebar() {
       collapsed: false,
       items: [
         { text: 'Markdown Examples', link: '/markdown-examples' },
-        { text: 'Runtime API Examples', link: '/api-examples' },
-        { text: 'Início', link: '/vue-test-utils/index' }
+        { text: 'Início', link: '/vue-test-utils/index' },
+        { text: 'Introdução ao VTU', link: '/vue-test-utils/essential' }
       ]
     }
   ]
