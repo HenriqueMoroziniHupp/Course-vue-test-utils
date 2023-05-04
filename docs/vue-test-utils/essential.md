@@ -56,7 +56,7 @@ Primeiro precisamos fazer algumas importações:
 - `test` e `expect`: São funções do Vitest, onde `test` sera usada para declararmos nosso teste e `expect` para dizermos o que esperamos do nosso teste.
 - Por fim, nosso componente, nesse caso estamos importando o componente `TodoApp.vue` da secção [inicio](#inicio)
 
-Com as importações feitas, vamos escrever nosso primeiro teste. Para isso chamamos a função `test`, que recebe dois argumentos: O primeiro, uma string com uma pequena descrição do nosso teste, e o segundo, uma função de callback onde nosso teste será escrito.
+Com as importações feitas, vamos escrever nosso primeiro teste. Para isso chamamos a função `test`, que recebe dois argumentos: O primeiro, uma string com uma pequena descrição do nosso teste, e o segundo, uma função de callback onde escreveremos de fato o nosso teste.
 
 Para testar um componente devemos monta-lo, então dentro da função de callback vamos chamar `mount` e passar como argumento o nosso `TodoApp`, essa função retornará uma instância do nosso componente, um VueWrapper. Salvaremos esse resultado dentro de uma variável chamada `wrapper`, que é um nome é adotado pela comunidade.
 
@@ -68,7 +68,7 @@ Este método funciona de forma parecida ao *querySelector* do JavaScript. No exe
 Até aqui temos selecionado o elemento que queremos testar. Em seguida vamos utilizar a função `expect` do Vitest,
 que nada mais é uma função que espera alguma resposta.
 
-Quero verificar se minha tarefa é renderizado com o texto que foi declarado no objeto, então esperamos que o elemento selecionado tenha um texto que contenha `"Aprender Vue Test Utils"`. 
+Quero verificar se minha tarefa é renderizada com o texto que foi declarado no objeto, então esperamos que o elemento selecionado tenha um texto que contenha `"Aprender Vue Test Utils"`. 
 
 O texto é obtido por `text()`, e utilizamos `toContain()` para dizer o que queremos que a seleção contenha.
 
@@ -87,10 +87,20 @@ Como sabemos o que queremos, então fica fácil realizar a implementação do no
 
 ## Fazendo o teste passar
 
-Para fazer nosso teste passar, precisamos ter no template um elemento que seja compatível com o atributo, então devemos renderizar algum elemento com o nome da nossa tarefa, que é "Aprender Vue Test Utils".
-
-
 Para que nosso teste passe, precisamos que no template tenha alguma elemento com o atributo `[data-test="todo"]`, fazendo com que o `get()` encontre algo, e que este elemento contenha "Aprender Vue Test Utils".
 
+```vue
+<template>
+  <h1>Minhas Tarefas</h1>
+  <div
+    v-for="todo in todos"
+    :key="todo.id"
+    data-test="todo"
+  >
+    {{ todo.text }}
+  </div>
+</template>
+```
 
+Executando novamente o Vitest ...
 Pronto, temos nosso primeiro teste concluído ! :tada:
