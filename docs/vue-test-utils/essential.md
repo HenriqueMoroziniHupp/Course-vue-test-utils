@@ -104,3 +104,25 @@ Para que nosso teste passe, precisamos que no template tenha alguma elemento com
 
 Executando novamente o Vitest ...
 Pronto, temos nosso primeiro teste concluído ! :tada:
+
+
+## Adicionando uma nova tarefa
+
+Nosso próximo passo é adicionar uma funcionalidade para o usuário criar uma nova tarefa. Vamos pensar...
+Para adicionarmos uma nova tarefa precisamos de um formulário com um `input` para inserir a descrição da tarefa
+e um `button` para criar a tarefa, ou seja, fazer um submit no formulário.
+
+Ao adicionar esta nova tarefa, nossa lista renderizada na DOM passará de uma tarefa para duas tarefas, então vamos testar se nossa lista aumenta
+após a inserção do novo item.
+
+```ts
+test('add a new todo', () => {
+  const wrapper = mount(TodoApp)
+  expect(wrapper.findAll('[data-test="todo"')).toHaveLength(1)
+
+  await wrapper.get('[data-test="form__input"]').setValue('New todo')
+  await wrapper.get('[data-test="form"').trigger('submit')
+
+  expect(wrapper.findAll('[data-test="todo"')).toHaveLength(1)
+})
+```
