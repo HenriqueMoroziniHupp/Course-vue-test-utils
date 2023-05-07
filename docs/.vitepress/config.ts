@@ -2,8 +2,8 @@ import { defineConfig } from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: "AprendaVue",
-  description: "Aprenda Vue",
+  title: "Vue Courses",
+  description: "Conteúdo Vue.js direto ao ponto",
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: nav(),
@@ -19,7 +19,6 @@ export default defineConfig({
 function nav() {
   return [
     { text: 'Home', link: '/' },
-    { text: 'Examples', link: '/markdown-examples' }
   ]
 }
 
@@ -29,7 +28,6 @@ function sidebar() {
       text: 'Vue Test Utils - Essencial',
       collapsed: false,
       items: [
-        { text: 'Markdown Examples', link: '/markdown-examples' },
         { text: 'Início', link: '/vue-test-utils/index' },
         { text: 'Introdução ao VTU', link: '/vue-test-utils/essential' }
       ]
