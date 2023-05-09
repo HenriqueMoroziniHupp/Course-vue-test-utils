@@ -92,13 +92,13 @@ Para que nosso teste passe, precisamos que no template tenha alguma elemento com
 ```vue
 <template>
   <h1>Minhas Tarefas</h1>
-  <div
+  <li
     v-for="todo in todos"
     :key="todo.id"
     data-test="todo"
   >
     {{ todo.text }}
-  </div>
+  </li>
 </template>
 ```
 
@@ -108,21 +108,97 @@ Pronto, temos nosso primeiro teste concluído ! :tada:
 
 ## Adicionando uma nova tarefa
 
-Nosso próximo passo é adicionar uma funcionalidade para o usuário criar uma nova tarefa. Vamos pensar...
-Para adicionarmos uma nova tarefa precisamos de um formulário com um `input` para inserir a descrição da tarefa
-e um `button` para criar a tarefa, ou seja, fazer um submit no formulário.
+Nosso próximo passo é adicionar uma funcionalidade para o usuário criar uma nova tarefa.
+Para isso precisamos de um formulário com um `input` onde o usuário irá inserir a descrição da sua tarefa,
+depois teremos que realizar um `submit` para ela ser criada.
 
 Ao adicionar esta nova tarefa, nossa lista renderizada na DOM passará de uma tarefa para duas tarefas, então vamos testar se nossa lista aumenta
 após a inserção do novo item.
+
 
 ```ts
 test('add a new todo', () => {
   const wrapper = mount(TodoApp)
   expect(wrapper.findAll('[data-test="todo"')).toHaveLength(1)
 
-  await wrapper.get('[data-test="form__input"]').setValue('New todo')
-  await wrapper.get('[data-test="form"').trigger('submit')
+  wrapper.get('[data-test="form-input"]').setValue('New todo')
+  wrapper.get('[data-test="form"').trigger('submit')
 
   expect(wrapper.findAll('[data-test="todo"')).toHaveLength(1)
 })
 ```
+
+Seguindo a mesma lógica do teste anterior, primeiro montaremos nosso componente com `mount` , salvaremos nosso `wrapper` e esperamos que nossa lista tenha tamanho igual a 1.
+Pare termos acesso ao tamanho de nossa lista, precisamos do método [`findAll`](https://test-utils.vuejs.org/api/#findall)
+que retorna uma matriz com elementos correspondentes da DOM seguindo de [`toHaveLength(1)`](https://vitest.dev/api/expect.html#tohavelength)
+
+Agora precisamos simular uma ação do usuário que neste exemplo é escrever um texto no campo de entrada, vamos realizar esta ação com `setValue()`.
+
+Para simular o envio do formulário, clique no botão enviar, iremos utilizar o método `trigger()`
+
+Após preencher o formulário e envia-lo, esperamos que o novo tamanho de nossa lista de tarefa seja dois.
+Então seguiremos o primeiro `exprect` porém com `toHaveLength(2)`
+
+Agora vamos para o componente realizar nossa implementação.
+
+```vue
+<script lang="ts" setup>
+import { ref } from "vue";
+
+const todos = ref([
+  {
+    id: 1,
+    text: "Aprender Vue Test Utils",
+    completed: false,
+  },
+]);
+
+const newTodo = ref<string>('')
+function createTodo() {
+  todos.value.push({
+    id: todos.value.length + 1,
+    text: newTodo.value,
+    completed: false,
+  });
+}
+
+</script>
+
+<template>
+  <h1>Minhas Tarefas</h1>
+  <li
+    v-for="todo in todos"
+    :key="todo.id"
+    data-test="todo"
+  >
+    {{ todo.text }}
+  </li>
+
+  <form data-test="form" @submit.prevent="createTodo" >
+    <label>Nova tarefa</label>
+    <input v-model="newTodo" data-test="form-input" />
+  </form>
+</template>
+```
+
+Usamos `v-model` para vincular `newTodo` com `<input>` e `@submit` para ouvir e chamar `createTodo()`, inserindo um novo objeto em `todos`
+
+Se rodarmos nosso projeto, tudo funcionará normalmente, porém o teste ira falhar.
+
+O teste falha pois o Vitest executa os testes de forma síncrona, enquanto o Vue atualiza a DOM de forma assíncrona. 
+Precisamos marcar nosso teste como `async` e chamar um `await` em todos métodos que possam fazer com que a DOM mude,
+no nosso caso o `setValue` no input e o `trigger` no nosso form.
+
+```ts{1,5-6}
+test('add a new todo', async () => {  // [!code focus]
+  const wrapper = mount(TodoApp)
+  expect(wrapper.findAll('[data-test="todo"')).toHaveLength(1)
+
+  await wrapper.get('[data-test="form-input"]').setValue('New todo')  // [!code focus]
+  await wrapper.get('[data-test="form"').trigger('submit')  // [!code focus]
+
+  expect(wrapper.findAll('[data-test="todo"')).toHaveLength(1)
+})
+```
+
+Agora ao executar nosso teste, irá passar ! :tada:
